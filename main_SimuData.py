@@ -23,7 +23,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 def main_Raman_De(data_name, args):
     #----------------------- Data Configuration -----------------------#
-    dataset_dir = '../Data/Simu_Data/'
+    dataset_dir = '../Raman_Denoising_Dataset/Simu_Data/'
     result_dir = './Results/SimuScene/' + data_name + '/'
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
@@ -32,7 +32,7 @@ def main_Raman_De(data_name, args):
     GT_data_tensor = torch.from_numpy(data['HR_RHSI']).float().to(device).unsqueeze(0).permute(0, 3, 1, 2)
     GT_data_tensor = (GT_data_tensor - torch.min(GT_data_tensor)) / (torch.max(GT_data_tensor) - torch.min(GT_data_tensor))
 
-    meas_data = torch.from_numpy(data['Noisy_RHSI']).float().to(device).unsqueeze(0)
+    meas_data = torch.from_numpy(data['Noisy_RHSI_20']).float().to(device).unsqueeze(0)
     meas_data_tensor = meas_data.permute(0, 3, 1, 2)/args.scale
     meas_data_tensor = (meas_data_tensor - torch.min(meas_data_tensor)) / (torch.max(meas_data_tensor) - torch.min(meas_data_tensor))
 
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.Dataset   == 'Simu':
-        data_list     =  ['Chessboard_data'] #'Pattern_data', 'Gaussian_data', 'Chessboard_data', 'PS_ball_data'
+        data_list     =  ['Pattern_data'] #'Pattern_data', 'Gaussian_data', 'Chessboard_data', 'PS_ball_data'
     else:
         print("---------- Ensure the name of dataset ----------") 
 
