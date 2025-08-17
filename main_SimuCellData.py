@@ -23,16 +23,16 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 def main_Raman_De(data_name, args):
     #----------------------- Data Configuration -----------------------#
-    dataset_dir = '../Data/Simu_Data/'
+    dataset_dir = '../Raman_Denoising_Dataset/Simu_Celldata/'
     result_dir = './Results/SimuScene/' + data_name + '/'
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
 
     data = sio.loadmat(dataset_dir + data_name + '.mat')
-    GT_data_tensor = torch.from_numpy(data['HR_RHSI']).float().to(device).unsqueeze(0).permute(0, 3, 1, 2)
+    GT_data_tensor = torch.from_numpy(data['HR_RHSI'])[:, :, 0:1101].float().to(device).unsqueeze(0).permute(0, 3, 1, 2)
     GT_data_tensor = (GT_data_tensor - torch.min(GT_data_tensor)) / (torch.max(GT_data_tensor) - torch.min(GT_data_tensor))
 
-    meas_data = torch.from_numpy(data['Noisy_RHSI']).float().to(device).unsqueeze(0)
+    meas_data = torch.from_numpy(data['Noisy_RHSI_30'])[:, :, 0:1101].float().to(device).unsqueeze(0)
     meas_data_tensor = meas_data.permute(0, 3, 1, 2)/args.scale
     meas_data_tensor = (meas_data_tensor - torch.min(meas_data_tensor)) / (torch.max(meas_data_tensor) - torch.min(meas_data_tensor))
 
@@ -67,32 +67,21 @@ if __name__ == '__main__':
     parser.add_argument('--PnP_i',        default = 1,              help="State of solo or PnP model")
     parser.add_argument('--vis_plot',     default = 0,              help="State of plot spectrum")
     parser.add_argument('--iter_num',     default = 30,             help="Number of ADMM iterations")
-    parser.add_argument('--Epoc_num',     default = 1200,           help="Number of MSD iterations")
-    parser.add_argument('--scale',        default = 1.0,            help="Factor of scaling mesurements")
-    parser.add_argument('--rho',          default = 20.,            help="Factor of dual variable")
-    parser.add_argument('--lambda_S',     default = 1,              help="Factor of sparse noise")
-    parser.add_argument('--lambda_R',     default = 4.0,            help="Factor of TV/STV regularization")
-    parser.add_argument('--lambda_STV',   default = 0.4,            help="Ratio of STV regularization")
-    parser.add_argument('--lambda_D',     default = 0.8,            help="Decay factor of lambda_R")
+    parser.add_argument('--Epoc_num',     default = 600,            help="Number of MSD iterations")
+    parser.add_argument('--scale',        default = 2.0,            help="Factor of scaling mesurements")
+    parser.add_argument('--rho',          default = 30.,            help="Factor of dual variable")
+    parser.add_argument('--lambda_S',     default = 1000,           help="Factor of sparse noise")
+    parser.add_argument('--lambda_R',     default = 0.05,           help="Factor of TV/STV regularization")
+    parser.add_argument('--lambda_STV',   default = 0.95,           help="Ratio of STV regularization")
+    parser.add_argument('--lambda_D',     default = 0.95,           help="Decay factor of lambda_R")
     args = parser.parse_args()
 
     if args.Dataset   == 'Simu':
-        data_list     =  ['Pattern_data'] #'Pattern_data', 'Gaussian_data', 'Chessboard_data', 'PS_ball_data'
+        data_list     =  ['CM_layer10']
     else:
         print("---------- Ensure the name of dataset ----------") 
 
     for file_name in data_list:
-        if file_name == 'PS_ball_data':
-            args.lambda_S, args.iter_num, args.lambda_R, args.lambda_STV, args.lambda_D = 1000, 30, 0.05, 0.2, 0.8
-        elif file_name == 'Pattern_data':
-            args.iter_num, args.lambda_R, args.lambda_STV, args.lambda_D = 40, 6.0, 0.4, 0.8
-        elif file_name == 'Gaussian_data':
-            args.iter_num, args.lambda_R, args.lambda_STV, args.lambda_D = 30, 8.0, 0.2, 0.8
-        elif file_name == 'Chessboard_data':
-            args.iter_num, args.lambda_R, args.lambda_STV, args.lambda_D = 30, 5.0, 0.4, 0.8
-        else:
-            args.lambda_R, args.Epoc_num = parser.get_default('lambda_R'), parser.get_default('Epoc_num')
-        
-        if os.path.exists('Results/model_weights.pth'):
-            os.remove('Results/model_weights.pth')
+        #if os.path.exists('Results/model_weights.pth'):
+        #    os.remove('Results/model_weights.pth')
         main_Raman_De(file_name, args)
