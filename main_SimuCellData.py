@@ -82,6 +82,6 @@ if __name__ == '__main__':
         print("---------- Ensure the name of dataset ----------") 
 
     for file_name in data_list:
-        #if os.path.exists('Results/model_weights.pth'):
-        #    os.remove('Results/model_weights.pth')
+        if os.path.exists('Results/model_weights.pth'):
+            os.remove('Results/model_weights.pth')
         main_Raman_De(file_name, args)
