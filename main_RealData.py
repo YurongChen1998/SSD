@@ -99,9 +99,9 @@ if __name__ == '__main__':
             args.scale = 345.95
             args.lambda_R, args.lambda_STV, args.lambda_D = 0.7, 0.2, 0.8
         elif file_name == 'PS_ball_data_532':
-            # --------  PS_ball_data_532 include: Noisy_RHSI_100 (0.01s) to Noisy_RHSI_1000 (0.001s) -------- #
-            args.noise_type = 'Noisy_RHSI_1000'
-            args.scale = 79    # 162 (Noisy_RHSI_100) / 79 (Noisy_RHSI_100)
+            # --------                 PS_ball_data_532 include: Noisy_RHSI_100 (0.01s)              -------- #
+            args.noise_type = 'Noisy_RHSI_100'
+            args.scale = 162
             args.lambda_R, args.lambda_STV, args.lambda_D = 0.1, 0.2, 0.8
         elif file_name == 'Tablet1_64x64_50x':
             # --------          Tablet1_64x64_50x include: Noisy_RHSI (0.001s) / HR_RHSI (1s)        -------- #
