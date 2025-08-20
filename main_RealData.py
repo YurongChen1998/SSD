@@ -24,7 +24,7 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
 def main_Raman_De(data_name, args):
     #----------------------- Data Configuration -----------------------#
-    dataset_dir = '../Raman_Denoising_Dataset/PSBall_data/PS_PMMA/'
+    dataset_dir = '../Raman_Denoising_Dataset/Real_Data/'
     result_dir = './Results/RealScene/' + data_name + '/'
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
