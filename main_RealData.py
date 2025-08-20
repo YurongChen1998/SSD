@@ -87,9 +87,9 @@ if __name__ == '__main__':
 
     if args.Dataset   == 'Real':
         # 'Cell_2DScene', 'Cell_Paramecium', 'Cell_ParameciumS2',
-        # 'PS_ball', 'PS_ball_data_532', 'PS_ball_data_633', 'PS_PMMA'
+        # 'PS_ball', 'PS_ball_data_532', 'PS_ball_data_633', 'PS_PMMA', 'PMMA'
         # 'Tablet1_64x64_50x', 'Tablet1_128x128_10x', 'Tablet1_linescan'
-        data_list     =  ['PS_PMMA'] 
+        data_list     =  ['PS_ball'] 
     else:
         print("---------- Ensure the name of dataset ----------") 
 
@@ -113,6 +113,11 @@ if __name__ == '__main__':
             args.noise_type = 'Noisy_RHSI_10'
             args.scale = 702
             args.lambda_R, args.lambda_STV, args.lambda_D = 0.1, 0.4, 0.8
+        elif file_name == 'PMMA':
+            # --------                       PMMA include: Noisy_RHSI_10 (0.1s)                      -------- #
+            args.noise_type = 'Noisy_RHSI_10'
+            args.scale = 677
+            args.lambda_R, args.lambda_STV, args.lambda_D = 0.1, 0.2, 0.8
         elif file_name == 'Tablet1_64x64_50x':
             # --------          Tablet1_64x64_50x include: Noisy_RHSI (0.001s) / HR_RHSI (1s)        -------- #
             args.scale = 168
