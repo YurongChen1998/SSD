@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
     if args.Dataset   == 'Real':
         # 'Cell_2DScene', 'Cell_Paramecium', 'Cell_ParameciumS2',
-        # 'PS_ball', 'PS_ball_data_532'
+        # 'PS_ball', 'PS_ball_data_532', 'PS_ball_data_633'
         # 'Tablet1_64x64_50x', 'Tablet1_128x128_10x', 'Tablet1_linescan'
         data_list     =  ['PS_ball_data_532'] 
     else:
@@ -103,6 +103,11 @@ if __name__ == '__main__':
             args.noise_type = 'Noisy_RHSI_100'
             args.scale = 162
             args.lambda_R, args.lambda_STV, args.lambda_D = 0.1, 0.2, 0.8
+        elif file_name == 'PS_ball_data_633':
+            # --------                 PS_ball_data_633 include: Noisy_RHSI_100 (0.01s)              -------- #
+            args.noise_type = 'Noisy_RHSI_100_50Laser'
+            args.scale = 162
+            args.lambda_R, args.lambda_STV, args.lambda_D = 0.1, 0.3, 0.8
         elif file_name == 'Tablet1_64x64_50x':
             # --------          Tablet1_64x64_50x include: Noisy_RHSI (0.001s) / HR_RHSI (1s)        -------- #
             args.scale = 168
