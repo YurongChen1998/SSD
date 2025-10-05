@@ -11,14 +11,14 @@ img2 = (img2 - min(img2(:))) ./ (max(img2(:)) - min(img2(:)));
 psnr_all = zeros(band, 1); ssim_all = zeros(band, 1);
 
 % Using point norm for cell scenes
-img1 = reshape(img1, [H*W, band]);  img2 = reshape(img2, [H*W, band]);
-for i = 1:H*W
-    temp_spectral_1 = squeeze(img1(i, :)); 
-    temp_spectral_2 = squeeze(img2(i, :));
-    img1(i, :) = (temp_spectral_1 - min(temp_spectral_1(:))) ./ (max(temp_spectral_1(:)) - min(temp_spectral_1(:)));
-    img2(i, :) = (temp_spectral_2 - min(temp_spectral_2(:))) ./ (max(temp_spectral_2(:)) - min(temp_spectral_2(:)));
-end
-img1 = reshape(img1, [H, W, band]);  img2 = reshape(img2, [H, W, band]);
+% img1 = reshape(img1, [H*W, band]);  img2 = reshape(img2, [H*W, band]);
+% for i = 1:H*W
+%     temp_spectral_1 = squeeze(img1(i, :)); 
+%     temp_spectral_2 = squeeze(img2(i, :));
+%     img1(i, :) = (temp_spectral_1 - min(temp_spectral_1(:))) ./ (max(temp_spectral_1(:)) - min(temp_spectral_1(:)));
+%     img2(i, :) = (temp_spectral_2 - min(temp_spectral_2(:))) ./ (max(temp_spectral_2(:)) - min(temp_spectral_2(:)));
+% end
+% img1 = reshape(img1, [H, W, band]);  img2 = reshape(img2, [H, W, band]);
 
 for i = 1:band
     temp_img1 = squeeze(img1(:, :, i)); temp_img2 = squeeze(img2(:, :, i));
